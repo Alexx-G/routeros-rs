@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["CommandWord","Common commands for RouterOS API"]],"struct":[["Attribute",""],["Command","It’s an implementation of the command sentence from RouterOS API."],["CommandBuilder","A convenience builder to be used to construct a [Command][Command] sentence programmatically."]]});
