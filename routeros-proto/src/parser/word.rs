@@ -1,8 +1,4 @@
-use super::{
-    core::take_bytes,
-    error::ParseError,
-    length::parse_length,
-};
+use super::{core::take_bytes, error::ParseError, length::parse_length};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ParserWord<'a> {
@@ -34,8 +30,8 @@ pub(crate) fn parse_word(input: &[u8]) -> Result<(&[u8], ParserWord), ParseError
 
 #[cfg(test)]
 mod tests {
-    use alloc::vec;
     use super::{parse_word, ParseError, ParserWord};
+    use alloc::vec;
 
     #[test]
     fn test_parse_word() {

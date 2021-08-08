@@ -4,6 +4,6 @@
 extern crate alloc;
 
 pub mod command;
-pub mod reply;
 mod encoder;
 mod parser;
+pub mod reply;
