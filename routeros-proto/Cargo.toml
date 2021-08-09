@@ -10,3 +10,13 @@ edition = "2018"
 [features]
 default = ["alloc"]
 alloc = []
+
+[dev-dependencies]
+criterion = "0.3"
+
+[lib]
+bench = false
+
+[[bench]]
+name = "parser"
+harness = false
