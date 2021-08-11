@@ -1,5 +1,3 @@
-use core::marker::PhantomData;
-
 use alloc::{format, string::String, vec::Vec};
 
 use crate::encoder::encode_length;
@@ -7,6 +5,7 @@ use crate::encoder::encode_length;
 use super::word::CommandWord;
 
 /// It's an implementation of the command sentence from [RouterOS API](https://help.mikrotik.com/docs/display/ROS/API).
+/// To create a new instance use [CommandBuilder][crate::command::CommandBuilder].
 pub struct Command {
     /// [Command word](https://help.mikrotik.com/docs/display/ROS/API#API-Commandword) - first word from the command
     /// sentence, it starts with '/' and follows CLI structure with space (' ') being replaced with '/'.
@@ -22,8 +21,6 @@ pub struct Command {
     /// [Command tag](https://help.mikrotik.com/docs/display/ROS/API#API-APIattributeword) - a special API Attribute that
     /// allows assigning an identifier to the command, the same identifier will be added to the corresponding reply sentence.
     pub tag: Option<String>,
-    #[doc(hidden)]
-    pub(crate) phantom: PhantomData<()>,
 }
 
 pub struct Attribute {

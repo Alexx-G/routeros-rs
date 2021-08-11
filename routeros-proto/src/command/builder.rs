@@ -1,10 +1,17 @@
-use core::marker::PhantomData;
-
 use alloc::{string::String, vec::Vec};
 
 use super::{Attribute, Command, CommandWord};
 
 /// A convenience builder to be used to construct a [Command][Command] sentence programmatically.
+///
+/// # Examples
+///
+/// ```
+/// use routeros_proto::command::{CommandBuilder, CommandWord};
+/// let comand = CommandBuilder::new(CommandWord::Login)
+///     .attribute("name", "foo")
+///     .build();
+/// ```
 pub struct CommandBuilder {
     command: CommandWord,
     attributes: Vec<Attribute>,
@@ -60,7 +67,6 @@ impl CommandBuilder {
             attributes: self.attributes,
             query: self.query,
             tag: self.tag,
-            phantom: PhantomData,
         }
     }
 }

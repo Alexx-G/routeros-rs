@@ -20,3 +20,7 @@ bench = false
 [[bench]]
 name = "parser"
 harness = false
+
+[[bench]]
+name = "serializer"
+harness = false
