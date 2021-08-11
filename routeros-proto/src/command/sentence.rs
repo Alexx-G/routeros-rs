@@ -1,6 +1,6 @@
 use alloc::{format, string::String, vec::Vec};
 
-use crate::encoder::encode_length;
+use crate::{core::Attribute, encoder::encode_length};
 
 use super::word::CommandWord;
 
@@ -21,21 +21,6 @@ pub struct Command {
     /// [Command tag](https://help.mikrotik.com/docs/display/ROS/API#API-APIattributeword) - a special API Attribute that
     /// allows assigning an identifier to the command, the same identifier will be added to the corresponding reply sentence.
     pub tag: Option<String>,
-}
-
-pub struct Attribute {
-    pub name: String,
-    pub value: Option<String>,
-}
-
-impl Attribute {
-    pub fn new(name: String, value: Option<String>) -> Self {
-        Self { name, value }
-    }
-
-    pub fn empty(name: String) -> Self {
-        Self { name, value: None }
-    }
 }
 
 impl Command {

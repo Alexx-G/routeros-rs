@@ -4,5 +4,5 @@ mod sentence;
 mod word;
 
 pub use builder::CommandBuilder;
-pub use sentence::{Attribute, Command};
+pub use sentence::Command;
 pub use word::CommandWord;

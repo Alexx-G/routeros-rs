@@ -4,8 +4,9 @@ use alloc::{
 };
 
 use crate::{
+    core::Attribute,
     error::ParseError,
-    parser::{parse_sentence, ParserWord},
+    parser::{parse_sentence, ParserAPIAttribute, ParserWord},
 };
 
 use super::ReplyWord;
@@ -13,7 +14,7 @@ use super::ReplyWord;
 #[derive(Debug)]
 pub struct Reply {
     pub reply: ReplyWord,
-    pub attributes: Vec<String>,
+    pub attributes: Vec<Attribute>,
     pub tag: Option<String>,
 }
 
@@ -31,15 +32,22 @@ impl Reply {
             let mut tag = None;
             for word in words[1..].iter() {
                 match word {
-                    ParserWord::Attribute(v) => {
-                        attributes.push(v.to_string());
+                    ParserWord::Attribute((name, value)) => {
+                        attributes.push(Attribute::new(
+                            name.to_string(),
+                            value.map(|v| v.to_string()),
+                        ));
                         Ok(())
                     }
-                    ParserWord::API(v) => {
-                        tag = Some(v.to_string());
+                    ParserWord::API(attr) => {
+                        match attr {
+                            &ParserAPIAttribute::Tag(v) => {
+                                tag = Some(v.to_string());
+                            }
+                        };
                         Ok(())
                     }
-                    _ => Err(ParseError::UnexpectedControlWord),
+                    _ => Err(ParseError::UnsupportedReplyAttribute),
                 }?;
             }
             (tag, attributes)

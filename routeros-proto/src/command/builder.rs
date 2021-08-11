@@ -1,6 +1,8 @@
 use alloc::{string::String, vec::Vec};
 
-use super::{Attribute, Command, CommandWord};
+use crate::core::Attribute;
+
+use super::{Command, CommandWord};
 
 /// A convenience builder to be used to construct a [Command][Command] sentence programmatically.
 ///

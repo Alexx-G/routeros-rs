@@ -8,6 +8,9 @@ pub enum ParseError {
     UnknownWordToken,
     UnexpectedControlWord,
     MoreThanOneControlWords,
+    InvalidAttributeFormat,
+    UnsupportedAPIAttribute,
+    UnsupportedReplyAttribute,
 }
 
 impl From<Utf8Error> for ParseError {

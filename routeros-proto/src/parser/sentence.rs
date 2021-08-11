@@ -30,7 +30,7 @@ pub(crate) fn parse_sentence(input: &[u8]) -> Result<(&[u8], Vec<ParserWord>), P
 
 #[cfg(test)]
 mod tests {
-    use crate::parser::{parse_sentence, ParserWord};
+    use crate::parser::{parse_sentence, word::ParserAPIAttribute, ParserWord};
     use alloc::vec;
 
     #[test]
@@ -52,8 +52,8 @@ mod tests {
                 ],
                 vec![
                     ParserWord::Command("/foo"),
-                    ParserWord::API(".tag=xyz"),
-                    ParserWord::Attribute("=comment=foo"),
+                    ParserWord::API(ParserAPIAttribute::Tag("xyz")),
+                    ParserWord::Attribute(("comment", Some("foo"))),
                 ],
             ),
         ];
