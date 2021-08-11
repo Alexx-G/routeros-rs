@@ -1,4 +1,6 @@
-use super::{core::take_bytes, error::ParseError, length::parse_length};
+use crate::error::ParseError;
+
+use super::{core::take_bytes, length::parse_length};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum ParserWord<'a> {

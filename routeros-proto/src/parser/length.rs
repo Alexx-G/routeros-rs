@@ -1,9 +1,8 @@
 use core::convert::TryInto;
 
-use super::{
-    core::{take_bytes, take_u8},
-    error::ParseError,
-};
+use crate::error::ParseError;
+
+use super::core::{take_bytes, take_u8};
 
 pub(crate) fn parse_length(input: &[u8]) -> Result<(&[u8], u32), ParseError> {
     let (input, length) = take_u8(input)?;

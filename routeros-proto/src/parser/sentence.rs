@@ -1,6 +1,7 @@
 use alloc::vec::Vec;
 
-use super::error::ParseError;
+use crate::error::ParseError;
+
 use super::word::{parse_word, ParserWord};
 
 pub(crate) fn parse_sentence(input: &[u8]) -> Result<(&[u8], Vec<ParserWord>), ParseError> {

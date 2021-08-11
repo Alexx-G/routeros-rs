@@ -3,7 +3,10 @@ use alloc::{
     vec::Vec,
 };
 
-use crate::parser::{parse_sentence, ParseError, ParserWord};
+use crate::{
+    error::ParseError,
+    parser::{parse_sentence, ParserWord},
+};
 
 use super::ReplyWord;
 

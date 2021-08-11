@@ -1,4 +1,4 @@
-use super::error::ParseError;
+use crate::error::ParseError;
 
 pub(crate) fn take_bytes(input: &[u8], count: usize) -> Result<(&[u8], &[u8]), ParseError> {
     if input.len() < count {
@@ -19,7 +19,7 @@ mod tests {
     use alloc::vec;
     use alloc::vec::Vec;
 
-    use crate::parser::error::ParseError;
+    use crate::error::ParseError;
 
     use super::{take_bytes, take_u8};
 
