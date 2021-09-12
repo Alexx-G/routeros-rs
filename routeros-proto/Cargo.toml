@@ -1,15 +1,17 @@
 [package]
 name = "routeros-proto"
-version = "0.1.0"
+version = "0.2.0"
 authors = ["Alex Gavrisco <alexandr@gavrisco.com>"]
 edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 [dependencies]
+thiserror = { version = "1", optional = true }
 
 [features]
 default = ["alloc"]
 alloc = []
+std = ["thiserror"]
 
 [dev-dependencies]
 criterion = "0.3"
