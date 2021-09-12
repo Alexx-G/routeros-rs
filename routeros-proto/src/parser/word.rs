@@ -26,7 +26,8 @@ pub(crate) fn parse_word(input: &[u8]) -> Result<(&[u8], ParserWord), ParseError
     }
     let (input, word) = take_bytes(input, length as usize)?;
     let word = core::str::from_utf8(word)?;
-    let word = match &word[..1] {
+    let token = &word[..1];
+    let word = match token {
         tokens::FORWARD_SLASH => Ok(ParserWord::Command(word)),
         tokens::EXCLAMATION_MARK => Ok(ParserWord::Reply(word)),
         tokens::EQUALS_SIGN => {
@@ -38,7 +39,7 @@ pub(crate) fn parse_word(input: &[u8]) -> Result<(&[u8], ParserWord), ParseError
             Ok(ParserWord::API(attribte))
         }
         tokens::QUESTION_MARK => Ok(ParserWord::Query(word)),
-        _ => Err(ParseError::UnknownWordToken),
+        _ => Err(ParseError::UnknownWordToken(token.chars().next().unwrap())),
     }?;
     Ok((input, word))
 }
@@ -119,7 +120,7 @@ mod tests {
     fn test_parse_word_invalid() {
         assert_eq!(
             parse_word(&[0x08, 0x2d, 0x74, 0x61, 0x67, 0x3d, 0x78, 0x79, 0x7a]),
-            Err(ParseError::UnknownWordToken)
+            Err(ParseError::UnknownWordToken('-'))
         );
         assert_eq!(parse_word(&[]), Err(ParseError::IncompleteInput(1)));
         assert_eq!(parse_word(&[0x01]), Err(ParseError::IncompleteInput(1)));

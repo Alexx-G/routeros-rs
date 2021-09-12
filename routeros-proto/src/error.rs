@@ -21,7 +21,7 @@ pub enum ParseError {
         source: Utf8Error,
     },
     #[cfg_attr(feature = "std", error("The word starts with unknown word token"))]
-    UnknownWordToken,
+    UnknownWordToken(char),
     #[cfg_attr(feature = "std", error("The sentence starts with unexpected control word"))]
     UnexpectedControlWord,
     #[cfg_attr(feature = "std", error("The sentence contains more than one control words"))]
