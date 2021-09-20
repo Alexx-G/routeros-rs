@@ -5,11 +5,12 @@ use alloc::{
 
 use crate::{
     core::Attribute,
+    encoder::encode_length,
     error::ParseError,
     parser::{parse_sentence, ParserAPIAttribute, ParserWord},
 };
 
-use super::ReplyWord;
+use super::{builder::ReplyBuilder, ReplyWord};
 
 #[derive(Debug)]
 pub struct Reply {
@@ -19,6 +20,32 @@ pub struct Reply {
 }
 
 impl Reply {
+    pub fn builder(reply: ReplyWord) -> ReplyBuilder {
+        ReplyBuilder::new(reply)
+    }
+
+    pub fn to_bytes_vec(&self) -> Vec<u8> {
+        let mut buffer = Vec::with_capacity(256);
+        let command: &str = (&self.reply).into();
+        buffer.extend(encode_length(command.len() as u32));
+        buffer.extend_from_slice(command.as_bytes());
+        for attribute in self.attributes.iter() {
+            let value = attribute.value.as_ref().map(|s| s.as_str()).unwrap_or("");
+            let attribute = format!("={}={}", attribute.name, value);
+            buffer.extend(encode_length(attribute.len() as u32));
+            buffer.extend_from_slice(attribute.as_bytes());
+        }
+        match &self.tag {
+            Some(t) => {
+                let tag = format!(".tag={}", t);
+                buffer.extend_from_slice(tag.as_bytes());
+            }
+            None => {}
+        };
+        buffer.push(0);
+        buffer
+    }
+
     pub fn from_bytes(input: &[u8]) -> Result<(&[u8], Self), ParseError> {
         let (input, words) = parse_sentence(input)?;
         let reply_word = match &words[0] {

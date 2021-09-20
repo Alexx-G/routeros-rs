@@ -19,3 +19,12 @@ impl<'a> From<&'a CommandWord> for &'a str {
         }
     }
 }
+
+impl From<&str> for CommandWord {
+    fn from(value: &str) -> Self {
+        match value {
+            LOGIN_COMMAND => CommandWord::Login,
+            v => CommandWord::Raw(v.to_string()),
+        }
+    }
+}

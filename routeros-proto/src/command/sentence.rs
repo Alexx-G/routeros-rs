@@ -1,11 +1,17 @@
 use alloc::{format, string::String, vec::Vec};
 
-use crate::{core::Attribute, encoder::encode_length};
+use crate::{
+    core::Attribute,
+    encoder::encode_length,
+    error::ParseError,
+    parser::{parse_sentence, ParserAPIAttribute, ParserWord},
+};
 
-use super::word::CommandWord;
+use super::{word::CommandWord, CommandBuilder};
 
 /// It's an implementation of the command sentence from [RouterOS API](https://help.mikrotik.com/docs/display/ROS/API).
 /// To create a new instance use [CommandBuilder][crate::command::CommandBuilder].
+#[derive(Debug)]
 pub struct Command {
     /// [Command word](https://help.mikrotik.com/docs/display/ROS/API#API-Commandword) - first word from the command
     /// sentence, it starts with '/' and follows CLI structure with space (' ') being replaced with '/'.
@@ -24,6 +30,11 @@ pub struct Command {
 }
 
 impl Command {
+    /// Create a new [builder][crate::command::CommandBuilder] instance to construct a command.
+    pub fn builder(command: CommandWord) -> CommandBuilder {
+        CommandBuilder::new(command)
+    }
+
     pub fn to_bytes_vec(&self) -> Vec<u8> {
         let mut buffer = Vec::with_capacity(256);
         let command: &str = (&self.command).into();
@@ -46,7 +57,56 @@ impl Command {
             }
             None => {}
         };
-        buffer.extend_from_slice(&[0, 0]);
+        buffer.extend_from_slice(&[0]);
         buffer
+    }
+
+    pub fn from_bytes(input: &[u8]) -> Result<(&[u8], Self), ParseError> {
+        let (input, words) = parse_sentence(input)?;
+        let command_word = match &words[0] {
+            ParserWord::Command(r) => Ok(CommandWord::from(*r)),
+            _ => Err(ParseError::UnexpectedControlWord),
+        }?;
+        let (tag, attributes, query) = if words.len() == 1 {
+            (None, Vec::with_capacity(0), Vec::with_capacity(0))
+        } else {
+            let mut attributes = Vec::with_capacity(words.len() - 1);
+            let mut query = Vec::with_capacity(words.len() - 1);
+            let mut tag = None;
+            for word in words[1..].iter() {
+                match word {
+                    ParserWord::Attribute((name, value)) => {
+                        attributes.push(Attribute::new(
+                            name.to_string(),
+                            value.map(|v| v.to_string()),
+                        ));
+                        Ok(())
+                    }
+                    ParserWord::API(attr) => {
+                        match attr {
+                            &ParserAPIAttribute::Tag(v) => {
+                                tag = Some(v.to_string());
+                            }
+                        };
+                        Ok(())
+                    }
+                    ParserWord::Query(q) => {
+                        query.push(q.to_string());
+                        Ok(())
+                    }
+                    _ => Err(ParseError::UnsupportedReplyAttribute),
+                }?;
+            }
+            (tag, attributes, query)
+        };
+        Ok((
+            input,
+            Self {
+                command: command_word,
+                attributes,
+                query,
+                tag,
+            },
+        ))
     }
 }
