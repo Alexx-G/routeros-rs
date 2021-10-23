@@ -1,12 +1,11 @@
 use alloc::{
-    format,
     string::{String, ToString},
     vec::Vec,
 };
 
 use crate::{
-    core::Attribute,
-    encoder::EncodedLength,
+    core::{Attribute, Decodable, Encodable},
+    encoder,
     error::ParseError,
     parser::{parse_sentence, ParserAPIAttribute, ParserWord},
 };
@@ -21,34 +20,29 @@ pub struct Reply {
 }
 
 impl Reply {
+    /// Create a new [builder][crate::reply::ReplyBuilder] instance to construct a reply.
     pub fn builder(reply: ReplyWord) -> ReplyBuilder {
         ReplyBuilder::new(reply)
     }
+}
 
-    pub fn to_bytes_vec(&self) -> Vec<u8> {
+impl Encodable for Reply {
+    fn to_bytes_vec(&self) -> Vec<u8> {
         let mut buffer = Vec::with_capacity(256);
-        let command: &str = (&self.reply).into();
-        buffer.extend_from_slice(EncodedLength::new(command.len()).as_slice());
-        buffer.extend_from_slice(command.as_bytes());
-        for attribute in self.attributes.iter() {
-            let value = attribute.value.as_ref().map(|s| s.as_str()).unwrap_or("");
-            let attribute = format!("={}={}", attribute.name, value);
-            buffer.extend(EncodedLength::new(attribute.len()).as_slice());
-            buffer.extend_from_slice(attribute.as_bytes());
-        }
-        match &self.tag {
-            Some(t) => {
-                let tag = format!(".tag={}", t);
-                buffer.extend_from_slice(tag.as_bytes());
-            }
-            None => {}
-        };
+        encoder::encode_str((&self.reply).into(), &mut buffer);
+        encoder::encode_attributes(self.attributes.iter(), &mut buffer);
+        encoder::encode_tag(self.tag.as_ref().map(|v| v.as_str()), &mut buffer);
         buffer.push(0);
         buffer
     }
+}
 
-    pub fn from_bytes(input: &[u8]) -> Result<(&[u8], Self), ParseError> {
-        let (input, words) = parse_sentence(input)?;
+impl Decodable for Reply {
+    fn from_bytes_slice(input: &[u8]) -> Result<Self, ParseError>
+    where
+        Self: Sized,
+    {
+        let (_, words) = parse_sentence(input)?;
         let reply_word = match &words[0] {
             ParserWord::Reply(r) => Ok(ReplyWord::from(*r)),
             _ => Err(ParseError::UnexpectedControlWord),
@@ -80,13 +74,10 @@ impl Reply {
             }
             (tag, attributes)
         };
-        Ok((
-            input,
-            Self {
-                reply: reply_word,
-                attributes,
-                tag,
-            },
-        ))
+        Ok(Self {
+            reply: reply_word,
+            attributes,
+            tag,
+        })
     }
 }
