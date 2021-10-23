@@ -1,1 +1,1 @@
-initSidebarItems({"mod":[["command",""],["reply",""]]});
+initSidebarItems({"mod":[["command",""],["core",""],["error",""],["reply",""]]});
