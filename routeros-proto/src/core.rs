@@ -1,4 +1,16 @@
-use alloc::string::String;
+use alloc::{string::String, vec::Vec};
+
+use crate::error::ParseError;
+
+pub trait Decodable {
+    fn from_bytes_slice(input: &[u8]) -> Result<Self, ParseError>
+    where
+        Self: Sized;
+}
+
+pub trait Encodable {
+    fn to_bytes_vec(&self) -> Vec<u8>;
+}
 
 #[derive(Debug)]
 pub struct Attribute {

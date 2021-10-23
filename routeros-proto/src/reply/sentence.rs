@@ -1,11 +1,12 @@
 use alloc::{
+    format,
     string::{String, ToString},
     vec::Vec,
 };
 
 use crate::{
     core::Attribute,
-    encoder::encode_length,
+    encoder::EncodedLength,
     error::ParseError,
     parser::{parse_sentence, ParserAPIAttribute, ParserWord},
 };
@@ -27,12 +28,12 @@ impl Reply {
     pub fn to_bytes_vec(&self) -> Vec<u8> {
         let mut buffer = Vec::with_capacity(256);
         let command: &str = (&self.reply).into();
-        buffer.extend(encode_length(command.len() as u32));
+        buffer.extend_from_slice(EncodedLength::new(command.len()).as_slice());
         buffer.extend_from_slice(command.as_bytes());
         for attribute in self.attributes.iter() {
             let value = attribute.value.as_ref().map(|s| s.as_str()).unwrap_or("");
             let attribute = format!("={}={}", attribute.name, value);
-            buffer.extend(encode_length(attribute.len() as u32));
+            buffer.extend(EncodedLength::new(attribute.len()).as_slice());
             buffer.extend_from_slice(attribute.as_bytes());
         }
         match &self.tag {

@@ -5,8 +5,8 @@ use core::fmt::{Formatter, Display, Result};
 #[cfg(feature = "std")]
 use thiserror::Error;
 
-#[derive(Clone, PartialEq, Eq)]
-#[cfg_attr(feature = "std", derive(Error, Debug))]
+#[derive(Clone, PartialEq, Debug, Eq)]
+#[cfg_attr(feature = "std", derive(Error))]
 pub enum ParseError {
     #[cfg_attr(feature = "std", error("The input is missing {0} bytes"))]
     IncompleteInput(usize),

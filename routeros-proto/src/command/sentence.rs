@@ -1,9 +1,9 @@
-use alloc::{format, string::String, vec::Vec};
+use alloc::{format, string::{String, ToString}, vec::Vec};
 
 use crate::{
-    core::Attribute,
-    encoder::encode_length,
+    core::{Attribute, Decodable, Encodable},
     error::ParseError,
+    encoder,
     parser::{parse_sentence, ParserAPIAttribute, ParserWord},
 };
 
@@ -34,35 +34,29 @@ impl Command {
     pub fn builder(command: CommandWord) -> CommandBuilder {
         CommandBuilder::new(command)
     }
+}
 
-    pub fn to_bytes_vec(&self) -> Vec<u8> {
+impl Encodable for Command {
+    fn to_bytes_vec(&self) -> Vec<u8> {
         let mut buffer = Vec::with_capacity(256);
-        let command: &str = (&self.command).into();
-        buffer.extend(encode_length(command.len() as u32));
-        buffer.extend_from_slice(command.as_bytes());
-        for attribute in self.attributes.iter() {
-            let value = attribute.value.as_ref().map(|s| s.as_str()).unwrap_or("");
-            let attribute = format!("={}={}", attribute.name, value);
-            buffer.extend(encode_length(attribute.len() as u32));
-            buffer.extend_from_slice(attribute.as_bytes());
-        }
+        encoder::encode_str((&self.command).into(), &mut buffer);
+        encoder::encode_attributes(self.attributes.iter(), &mut buffer);
         for query in self.query.iter() {
             let query = format!("?{}", query);
-            buffer.extend_from_slice(query.as_bytes());
+            encoder::encode_str(query.as_str(), &mut buffer);
         }
-        match &self.tag {
-            Some(t) => {
-                let tag = format!(".tag={}", t);
-                buffer.extend_from_slice(tag.as_bytes());
-            }
-            None => {}
-        };
-        buffer.extend_from_slice(&[0]);
+        encoder::encode_tag(self.tag.as_ref().map(|v| v.as_str()), &mut buffer);
+        buffer.push(0);
         buffer
     }
+}
 
-    pub fn from_bytes(input: &[u8]) -> Result<(&[u8], Self), ParseError> {
-        let (input, words) = parse_sentence(input)?;
+impl Decodable for Command {
+    fn from_bytes_slice(input: &[u8]) -> Result<Self, ParseError>
+    where
+        Self: Sized,
+    {
+        let (_, words) = parse_sentence(input)?;
         let command_word = match &words[0] {
             ParserWord::Command(r) => Ok(CommandWord::from(*r)),
             _ => Err(ParseError::UnexpectedControlWord),
@@ -99,14 +93,11 @@ impl Command {
             }
             (tag, attributes, query)
         };
-        Ok((
-            input,
-            Self {
-                command: command_word,
-                attributes,
-                query,
-                tag,
-            },
-        ))
+        Ok(Self {
+            command: command_word,
+            attributes,
+            query,
+            tag,
+        })
     }
 }

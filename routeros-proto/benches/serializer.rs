@@ -1,5 +1,5 @@
 use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion, Throughput};
-use routeros_proto::command::{Command, CommandBuilder, CommandWord};
+use routeros_proto::{command::{Command, CommandBuilder, CommandWord}, core::Encodable};
 
 fn command_to_bytes(command: &Command) -> Vec<u8> {
     command.to_bytes_vec()
