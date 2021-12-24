@@ -1,5 +1,5 @@
 window.BENCHMARK_DATA = {
-  "lastUpdate": 1635019399009,
+  "lastUpdate": 1640327389246,
   "repoUrl": "https://github.com/Alexx-G/routeros-rs",
   "entries": {
     "routeros-proto": [
@@ -83,6 +83,54 @@ window.BENCHMARK_DATA = {
             "name": "command_to_bytes/to_bytes_vec/print",
             "value": 724,
             "range": "± 44",
+            "unit": "ns/iter"
+          }
+        ]
+      },
+      {
+        "commit": {
+          "author": {
+            "email": "alexandr@gavrisco.com",
+            "name": "Alex Gavrisco",
+            "username": "Alexx-G"
+          },
+          "committer": {
+            "email": "alexandr@gavrisco.com",
+            "name": "Alex Gavrisco",
+            "username": "Alexx-G"
+          },
+          "distinct": true,
+          "id": "d5c16d8182a11d0276414ddb2a50eed271ac1ab9",
+          "message": "Update docs and README",
+          "timestamp": "2021-12-24T08:26:44+02:00",
+          "tree_id": "8f9484d0664fbf1d7f94b6eccaabaf1de10047ac",
+          "url": "https://github.com/Alexx-G/routeros-rs/commit/d5c16d8182a11d0276414ddb2a50eed271ac1ab9"
+        },
+        "date": 1640327388142,
+        "tool": "cargo",
+        "benches": [
+          {
+            "name": "reply_parser/done_reply/7",
+            "value": 54,
+            "range": "± 0",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "reply_parser/data_reply/438",
+            "value": 3849,
+            "range": "± 50",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "command_to_bytes/to_bytes_vec/login",
+            "value": 155,
+            "range": "± 3",
+            "unit": "ns/iter"
+          },
+          {
+            "name": "command_to_bytes/to_bytes_vec/print",
+            "value": 577,
+            "range": "± 2",
             "unit": "ns/iter"
           }
         ]
