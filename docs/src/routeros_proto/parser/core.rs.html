@@ -64,7 +64,7 @@
 <span id="64">64</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::error::ParseError</span>;
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">take_bytes</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">count</span>: <span class="ident">usize</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]), <span class="ident">ParseError</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">take_bytes</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">count</span>: <span class="ident">usize</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]), <span class="ident">ParseError</span><span class="op">&gt;</span> {
     <span class="kw">if</span> <span class="ident">input</span>.<span class="ident">len</span>() <span class="op">&lt;</span> <span class="ident">count</span> {
         <span class="kw">let</span> <span class="ident">needed</span> <span class="op">=</span> <span class="ident">count</span> <span class="op">-</span> <span class="ident">input</span>.<span class="ident">len</span>();
         <span class="prelude-val">Err</span>(<span class="ident">ParseError::IncompleteInput</span>(<span class="ident">needed</span>))
@@ -73,7 +73,7 @@
     }
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">take_u8</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">u8</span>), <span class="ident">ParseError</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">take_u8</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">u8</span>), <span class="ident">ParseError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> (<span class="ident">input</span>, <span class="ident">result</span>) <span class="op">=</span> <span class="ident">take_bytes</span>(<span class="ident">input</span>, <span class="number">1</span>)<span class="question-mark">?</span>;
     <span class="kw">return</span> <span class="prelude-val">Ok</span>((<span class="ident">input</span>, <span class="ident">result</span>[<span class="number">0</span>]));
 }

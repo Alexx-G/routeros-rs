@@ -48,25 +48,25 @@
 }
 
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">str</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ReplyWord</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="self">Self</span> {
         <span class="kw">match</span> <span class="ident">value</span> {
-            <span class="ident">DONE_REPLY</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ReplyWord::Done</span>,
-            <span class="ident">DATA_REPLY</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ReplyWord::Data</span>,
-            <span class="ident">TRAP_REPLY</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ReplyWord::Error</span>,
-            <span class="ident">FATAL_REPLY</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ReplyWord::Fatal</span>,
-            <span class="ident">v</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">ReplyWord::Other</span>(<span class="ident">v</span>.<span class="ident">to_string</span>()),
+            <span class="ident">DONE_REPLY</span> =&gt; <span class="ident">ReplyWord::Done</span>,
+            <span class="ident">DATA_REPLY</span> =&gt; <span class="ident">ReplyWord::Data</span>,
+            <span class="ident">TRAP_REPLY</span> =&gt; <span class="ident">ReplyWord::Error</span>,
+            <span class="ident">FATAL_REPLY</span> =&gt; <span class="ident">ReplyWord::Fatal</span>,
+            <span class="ident">v</span> =&gt; <span class="ident">ReplyWord::Other</span>(<span class="ident">v</span>.<span class="ident">to_string</span>()),
         }
     }
 }
 
 <span class="kw">impl</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> <span class="ident">From</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">ReplyWord</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">ReplyWord</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="ident">value</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">ReplyWord</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">str</span> {
         <span class="kw">match</span> <span class="ident">value</span> {
-            <span class="ident">ReplyWord::Done</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DONE_REPLY</span>,
-            <span class="ident">ReplyWord::Error</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">TRAP_REPLY</span>,
-            <span class="ident">ReplyWord::Fatal</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">FATAL_REPLY</span>,
-            <span class="ident">ReplyWord::Data</span> <span class="op">=</span><span class="op">&gt;</span> <span class="ident">DATA_REPLY</span>,
-            <span class="ident">ReplyWord::Other</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="ident">v</span>.<span class="ident">as_str</span>(),
+            <span class="ident">ReplyWord::Done</span> =&gt; <span class="ident">DONE_REPLY</span>,
+            <span class="ident">ReplyWord::Error</span> =&gt; <span class="ident">TRAP_REPLY</span>,
+            <span class="ident">ReplyWord::Fatal</span> =&gt; <span class="ident">FATAL_REPLY</span>,
+            <span class="ident">ReplyWord::Data</span> =&gt; <span class="ident">DATA_REPLY</span>,
+            <span class="ident">ReplyWord::Other</span>(<span class="ident">v</span>) =&gt; <span class="ident">v</span>.<span class="ident">as_str</span>(),
         }
     }
 }

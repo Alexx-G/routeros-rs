@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["routeros_proto"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.56.0/std/error/trait.Error.html\" title=\"trait std::error::Error\">Error</a> for <a class=\"enum\" href=\"routeros_proto/error/enum.ParseError.html\" title=\"enum routeros_proto::error::ParseError\">ParseError</a>","synthetic":false,"types":["routeros_proto::error::ParseError"]}];
+implementors["routeros_proto"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.57.0/std/error/trait.Error.html\" title=\"trait std::error::Error\">Error</a> for <a class=\"enum\" href=\"routeros_proto/error/enum.ParseError.html\" title=\"enum routeros_proto::error::ParseError\">ParseError</a>","synthetic":false,"types":["routeros_proto::error::ParseError"]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()

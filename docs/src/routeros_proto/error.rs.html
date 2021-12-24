@@ -86,7 +86,7 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>))]</span>
 <span class="kw">impl</span> <span class="ident">Display</span> <span class="kw">for</span> <span class="ident">ParseError</span> {
-    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span> {
+    <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span> {
         <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;ParseError({})&quot;</span>, <span class="self">self</span>) 
     }
 }
@@ -94,7 +94,7 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>))]</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Utf8Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ParseError</span> {
-    <span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span>: <span class="ident">Utf8Error</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span>: <span class="ident">Utf8Error</span>) -&gt; <span class="self">Self</span> {
        <span class="ident"><span class="self">Self</span>::InvalidStringEncoding</span>
     }
 }

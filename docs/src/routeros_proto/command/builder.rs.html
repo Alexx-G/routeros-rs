@@ -97,7 +97,7 @@
 
 <span class="kw">impl</span> <span class="ident">CommandBuilder</span> {
     <span class="doccomment">/// Create a new builder instance using a [command word][CommandWord]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">command</span>: <span class="ident">CommandWord</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">command</span>: <span class="ident">CommandWord</span>) -&gt; <span class="self">Self</span> {
         <span class="self">Self</span> {
             <span class="ident">command</span>,
             <span class="ident">attributes</span>: <span class="ident">Vec::new</span>(),
@@ -107,37 +107,37 @@
     }
 
     <span class="doccomment">/// Create a new builder instance using a raw (String-based) [command word][CommandWord]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_raw</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">command</span>: <span class="ident">C</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new_raw</span><span class="op">&lt;</span><span class="ident">C</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="ident">command</span>: <span class="ident">C</span>) -&gt; <span class="self">Self</span> {
         <span class="ident"><span class="self">Self</span>::new</span>(<span class="ident">CommandWord::Raw</span>(<span class="ident">command</span>.<span class="ident">into</span>()))
     }
 
     <span class="doccomment">/// Add a new command attribute</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">attribute</span><span class="op">&lt;</span><span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="ident">N</span>, <span class="ident">value</span>: <span class="ident">V</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">attribute</span><span class="op">&lt;</span><span class="ident">N</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>, <span class="ident">V</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="ident">N</span>, <span class="ident">value</span>: <span class="ident">V</span>) -&gt; <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">attributes</span>
             .<span class="ident">push</span>(<span class="ident">Attribute::new</span>(<span class="ident">name</span>.<span class="ident">into</span>(), <span class="prelude-val">Some</span>(<span class="ident">value</span>.<span class="ident">into</span>())));
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Add a new empty command attribute</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty_attribute</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">empty_attribute</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">name</span>: <span class="ident">S</span>) -&gt; <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">attributes</span>.<span class="ident">push</span>(<span class="ident">Attribute::empty</span>(<span class="ident">name</span>.<span class="ident">into</span>()));
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Add a query attribute to the command</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">query</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">query</span>: <span class="ident">S</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">query</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">query</span>: <span class="ident">S</span>) -&gt; <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">query</span>.<span class="ident">push</span>(<span class="ident">query</span>.<span class="ident">into</span>());
         <span class="self">self</span>
     }
 
     <span class="doccomment">/// Set a tag on the command</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tag</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tag</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">tag</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">Into</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">mut</span> <span class="self">self</span>, <span class="ident">tag</span>: <span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">S</span><span class="op">&gt;</span>) -&gt; <span class="self">Self</span> {
         <span class="self">self</span>.<span class="ident">tag</span> <span class="op">=</span> <span class="ident">tag</span>.<span class="ident">map</span>(<span class="op">|</span><span class="ident">s</span><span class="op">|</span> <span class="ident">s</span>.<span class="ident">into</span>());
         <span class="self">self</span>
     }
 
-    <span class="doccomment">/// Build a [command sentence][Command] instance</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="self">self</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="ident">Command</span> {
+    <span class="doccomment">/// Build a [command sentence][Command] instance, consuming the builder instance.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">build</span>(<span class="self">self</span>) -&gt; <span class="ident">Command</span> {
         <span class="ident">Command</span> {
             <span class="ident">command</span>: <span class="self">self</span>.<span class="ident">command</span>,
             <span class="ident">attributes</span>: <span class="self">self</span>.<span class="ident">attributes</span>,

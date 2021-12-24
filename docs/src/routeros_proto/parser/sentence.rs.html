@@ -69,12 +69,12 @@
 
 <span class="kw">use</span> <span class="ident"><span class="kw">super</span>::word</span>::{<span class="ident">parse_word</span>, <span class="ident">ParserWord</span>};
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_sentence</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ParserWord</span><span class="op">&gt;</span>), <span class="ident">ParseError</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_sentence</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">ParserWord</span><span class="op">&gt;</span>), <span class="ident">ParseError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> (<span class="kw-2">mut</span> <span class="ident">input</span>, <span class="ident">word</span>) <span class="op">=</span> <span class="ident">parse_word</span>(<span class="ident">input</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">word</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">word</span> {
-        <span class="ident">ParserWord::Command</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ParserWord::Command</span>(<span class="ident">v</span>)),
-        <span class="ident">ParserWord::Reply</span>(<span class="ident">v</span>) <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ParserWord::Reply</span>(<span class="ident">v</span>)),
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ParseError::UnexpectedControlWord</span>),
+        <span class="ident">ParserWord::Command</span>(<span class="ident">v</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">ParserWord::Command</span>(<span class="ident">v</span>)),
+        <span class="ident">ParserWord::Reply</span>(<span class="ident">v</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">ParserWord::Reply</span>(<span class="ident">v</span>)),
+        <span class="kw">_</span> =&gt; <span class="prelude-val">Err</span>(<span class="ident">ParseError::UnexpectedControlWord</span>),
     }<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">words</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="number">1</span>);
     <span class="ident">words</span>.<span class="ident">push</span>(<span class="ident">word</span>);
@@ -82,11 +82,11 @@
         <span class="kw">let</span> (<span class="ident">remaining_input</span>, <span class="ident">word</span>) <span class="op">=</span> <span class="ident">parse_word</span>(<span class="ident">input</span>)<span class="question-mark">?</span>;
         <span class="ident">input</span> <span class="op">=</span> <span class="ident">remaining_input</span>;
         <span class="kw">let</span> <span class="ident">word</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">word</span> {
-            <span class="ident">ParserWord::ZeroLength</span> <span class="op">=</span><span class="op">&gt;</span> <span class="kw">break</span>,
-            <span class="ident">ParserWord::Command</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">ParserWord::Reply</span>(<span class="kw">_</span>) <span class="op">=</span><span class="op">&gt;</span> {
+            <span class="ident">ParserWord::ZeroLength</span> =&gt; <span class="kw">break</span>,
+            <span class="ident">ParserWord::Command</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">ParserWord::Reply</span>(<span class="kw">_</span>) =&gt; {
                 <span class="prelude-val">Err</span>(<span class="ident">ParseError::MoreThanOneControlWords</span>)
             }
-            <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">word</span>),
+            <span class="kw">_</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">word</span>),
         }<span class="question-mark">?</span>;
         <span class="ident">words</span>.<span class="ident">push</span>(<span class="ident">word</span>);
     }

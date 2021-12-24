@@ -190,56 +190,56 @@
     <span class="ident">ZeroLength</span>,
 }
 
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_word</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">ParserWord</span>), <span class="ident">ParseError</span><span class="op">&gt;</span> {
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn</span> <span class="ident">parse_word</span>(<span class="ident">input</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span>[<span class="ident">u8</span>], <span class="ident">ParserWord</span>), <span class="ident">ParseError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> (<span class="ident">input</span>, <span class="ident">length</span>) <span class="op">=</span> <span class="ident">parse_length</span>(<span class="ident">input</span>)<span class="question-mark">?</span>;
-    <span class="kw">if</span> <span class="ident">length</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+    <span class="kw">if</span> <span class="ident">length</span> <span class="op">==</span> <span class="number">0</span> {
         <span class="kw">return</span> <span class="prelude-val">Ok</span>((<span class="ident">input</span>, <span class="ident">ParserWord::ZeroLength</span>));
     }
     <span class="kw">let</span> (<span class="ident">input</span>, <span class="ident">word</span>) <span class="op">=</span> <span class="ident">take_bytes</span>(<span class="ident">input</span>, <span class="ident">length</span> <span class="kw">as</span> <span class="ident">usize</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">word</span> <span class="op">=</span> <span class="ident">core::str::from_utf8</span>(<span class="ident">word</span>)<span class="question-mark">?</span>;
     <span class="kw">let</span> <span class="ident">token</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">word</span>[..<span class="number">1</span>];
     <span class="kw">let</span> <span class="ident">word</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">token</span> {
-        <span class="ident">tokens::FORWARD_SLASH</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ParserWord::Command</span>(<span class="ident">word</span>)),
-        <span class="ident">tokens::EXCLAMATION_MARK</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ParserWord::Reply</span>(<span class="ident">word</span>)),
-        <span class="ident">tokens::EQUALS_SIGN</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">tokens::FORWARD_SLASH</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">ParserWord::Command</span>(<span class="ident">word</span>)),
+        <span class="ident">tokens::EXCLAMATION_MARK</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">ParserWord::Reply</span>(<span class="ident">word</span>)),
+        <span class="ident">tokens::EQUALS_SIGN</span> =&gt; {
             <span class="kw">let</span> <span class="ident">attribute</span> <span class="op">=</span> <span class="ident">parse_attribute</span>(<span class="kw-2">&amp;</span><span class="ident">word</span>[<span class="number">1</span>..])<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(<span class="ident">ParserWord::Attribute</span>(<span class="ident">attribute</span>))
         }
-        <span class="ident">tokens::DOT</span> <span class="op">=</span><span class="op">&gt;</span> {
+        <span class="ident">tokens::DOT</span> =&gt; {
             <span class="kw">let</span> <span class="ident">attribte</span> <span class="op">=</span> <span class="ident">parse_api_attribute</span>(<span class="kw-2">&amp;</span><span class="ident">word</span>[<span class="number">1</span>..])<span class="question-mark">?</span>;
             <span class="prelude-val">Ok</span>(<span class="ident">ParserWord::API</span>(<span class="ident">attribte</span>))
         }
-        <span class="ident">tokens::QUESTION_MARK</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ParserWord::Query</span>(<span class="ident">word</span>)),
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ParseError::UnknownWordToken</span>(<span class="ident">token</span>.<span class="ident">chars</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>())),
+        <span class="ident">tokens::QUESTION_MARK</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">ParserWord::Query</span>(<span class="ident">word</span>)),
+        <span class="kw">_</span> =&gt; <span class="prelude-val">Err</span>(<span class="ident">ParseError::UnknownWordToken</span>(<span class="ident">token</span>.<span class="ident">chars</span>().<span class="ident">next</span>().<span class="ident">unwrap</span>())),
     }<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>((<span class="ident">input</span>, <span class="ident">word</span>))
 }
 
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">parse_api_attribute</span>(<span class="ident">word</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ParserAPIAttribute</span>, <span class="ident">ParseError</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">parse_api_attribute</span>(<span class="ident">word</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ParserAPIAttribute</span>, <span class="ident">ParseError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">sep</span> <span class="op">=</span> <span class="ident">word</span>
         .<span class="ident">find</span>(<span class="ident">tokens::EQUALS_SIGN</span>)
         .<span class="ident">ok_or</span>(<span class="ident">ParseError::InvalidAttributeFormat</span>)<span class="question-mark">?</span>;
-    <span class="kw">if</span> <span class="ident">sep</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">sep</span> <span class="op">=</span><span class="op">=</span> <span class="ident">word</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span> {
+    <span class="kw">if</span> <span class="ident">sep</span> <span class="op">==</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">sep</span> <span class="op">==</span> <span class="ident">word</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span> {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ParseError::InvalidAttributeFormat</span>);
     }
 
     <span class="kw">let</span> <span class="ident">attribute</span> <span class="op">=</span> <span class="kw">match</span> <span class="kw-2">&amp;</span><span class="ident">word</span>[..<span class="ident">sep</span>] {
-        <span class="ident">tokens::TAG_WORD</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Ok</span>(<span class="ident">ParserAPIAttribute::Tag</span>(<span class="kw-2">&amp;</span><span class="ident">word</span>[<span class="ident">sep</span> <span class="op">+</span> <span class="number">1</span>..])),
-        <span class="kw">_</span> <span class="op">=</span><span class="op">&gt;</span> <span class="prelude-val">Err</span>(<span class="ident">ParseError::UnsupportedAPIAttribute</span>),
+        <span class="ident">tokens::TAG_WORD</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">ParserAPIAttribute::Tag</span>(<span class="kw-2">&amp;</span><span class="ident">word</span>[<span class="ident">sep</span> <span class="op">+</span> <span class="number">1</span>..])),
+        <span class="kw">_</span> =&gt; <span class="prelude-val">Err</span>(<span class="ident">ParseError::UnsupportedAPIAttribute</span>),
     }<span class="question-mark">?</span>;
     <span class="prelude-val">Ok</span>(<span class="ident">attribute</span>)
 }
 
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">parse_attribute</span>(<span class="ident">word</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ParserAttribute</span>, <span class="ident">ParseError</span><span class="op">&gt;</span> {
+<span class="kw">fn</span> <span class="ident">parse_attribute</span>(<span class="ident">word</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">ParserAttribute</span>, <span class="ident">ParseError</span><span class="op">&gt;</span> {
     <span class="kw">let</span> <span class="ident">sep</span> <span class="op">=</span> <span class="ident">word</span>
         .<span class="ident">find</span>(<span class="ident">tokens::EQUALS_SIGN</span>)
         .<span class="ident">ok_or</span>(<span class="ident">ParseError::InvalidAttributeFormat</span>)<span class="question-mark">?</span>;
-    <span class="kw">if</span> <span class="ident">sep</span> <span class="op">=</span><span class="op">=</span> <span class="number">0</span> {
+    <span class="kw">if</span> <span class="ident">sep</span> <span class="op">==</span> <span class="number">0</span> {
         <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">ParseError::InvalidAttributeFormat</span>);
     }
-    <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">sep</span> <span class="op">=</span><span class="op">=</span> <span class="ident">word</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span> {
+    <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">sep</span> <span class="op">==</span> <span class="ident">word</span>.<span class="ident">len</span>() <span class="op">-</span> <span class="number">1</span> {
         <span class="prelude-val">None</span>
     } <span class="kw">else</span> {
         <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">word</span>[<span class="ident">sep</span> <span class="op">+</span> <span class="number">1</span>..])
