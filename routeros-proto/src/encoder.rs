@@ -1,7 +1,4 @@
-use alloc::{
-    format,
-    vec::Vec,
-};
+use alloc::{format, vec::Vec};
 
 use crate::core::Attribute;
 
@@ -88,7 +85,6 @@ mod tests {
             (0x10000080, vec![0xF0, 0x10, 0x00, 0x00, 0x80]),
         ];
         for (length, expected_bytes) in test_cases.iter() {
-
             let encoded_length = EncodedLength::new(*length);
             assert_eq!(expected_bytes.as_slice(), encoded_length.as_slice());
         }

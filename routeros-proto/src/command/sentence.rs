@@ -1,9 +1,13 @@
-use alloc::{format, string::{String, ToString}, vec::Vec};
+use alloc::{
+    format,
+    string::{String, ToString},
+    vec::Vec,
+};
 
 use crate::{
     core::{Attribute, Decodable, Encodable},
-    error::ParseError,
     encoder,
+    error::ParseError,
     parser::{parse_sentence, ParserAPIAttribute, ParserWord},
 };
 

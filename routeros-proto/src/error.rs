@@ -1,6 +1,6 @@
-use core::str::Utf8Error;
 #[cfg(not(feature = "std"))]
-use core::fmt::{Formatter, Display, Result};
+use core::fmt::{Display, Formatter, Result};
+use core::str::Utf8Error;
 
 #[cfg(feature = "std")]
 use thiserror::Error;
@@ -22,29 +22,40 @@ pub enum ParseError {
     },
     #[cfg_attr(feature = "std", error("The word starts with unknown word token"))]
     UnknownWordToken(char),
-    #[cfg_attr(feature = "std", error("The sentence starts with unexpected control word"))]
+    #[cfg_attr(
+        feature = "std",
+        error("The sentence starts with unexpected control word")
+    )]
     UnexpectedControlWord,
-    #[cfg_attr(feature = "std", error("The sentence contains more than one control words"))]
+    #[cfg_attr(
+        feature = "std",
+        error("The sentence contains more than one control words")
+    )]
     MoreThanOneControlWords,
     #[cfg_attr(feature = "std", error("Failed to decode attribute - invalid format"))]
     InvalidAttributeFormat,
-    #[cfg_attr(feature = "std", error("The sentence contains unsupported API attribute"))]
+    #[cfg_attr(
+        feature = "std",
+        error("The sentence contains unsupported API attribute")
+    )]
     UnsupportedAPIAttribute,
-    #[cfg_attr(feature = "std", error("Reply sentence contains unsupported attribute"))]
+    #[cfg_attr(
+        feature = "std",
+        error("Reply sentence contains unsupported attribute")
+    )]
     UnsupportedReplyAttribute,
 }
 
 #[cfg(not(feature = "std"))]
 impl Display for ParseError {
     fn fmt(&self, f: &mut Formatter<'_>) -> Result {
-        write!(f, "ParseError({})", self) 
+        write!(f, "ParseError({})", self)
     }
 }
-
 
 #[cfg(not(feature = "std"))]
 impl From<Utf8Error> for ParseError {
     fn from(_: Utf8Error) -> Self {
-       Self::InvalidStringEncoding
+        Self::InvalidStringEncoding
     }
 }

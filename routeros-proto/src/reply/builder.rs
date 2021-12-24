@@ -5,7 +5,7 @@ use crate::core::Attribute;
 use super::{Reply, ReplyWord};
 
 /// A convenience builder to be used to construct a [Reply][Reply] sentence programmatically.
-/// 
+///
 /// # Examples
 ///
 /// ```

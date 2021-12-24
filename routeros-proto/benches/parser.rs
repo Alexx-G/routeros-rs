@@ -2,8 +2,7 @@ use criterion::{criterion_group, criterion_main, BenchmarkId, Criterion, Through
 use routeros_proto::{core::Decodable, reply::Reply};
 
 fn parse_reply(input: &[u8]) -> Reply {
-    Reply::from_bytes_slice(input)
-        .expect("Unexpected parsing error")
+    Reply::from_bytes_slice(input).expect("Unexpected parsing error")
 }
 
 fn reply_parsing(c: &mut Criterion) {
