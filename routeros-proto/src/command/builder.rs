@@ -62,7 +62,7 @@ impl CommandBuilder {
         self
     }
 
-    /// Build a [command sentence][Command] instance
+    /// Build a [command sentence][Command] instance, consuming the builder instance.
     pub fn build(self) -> Command {
         Command {
             command: self.command,

@@ -5,6 +5,15 @@ use crate::core::Attribute;
 use super::{Reply, ReplyWord};
 
 /// A convenience builder to be used to construct a [Reply][Reply] sentence programmatically.
+/// 
+/// # Examples
+///
+/// ```
+/// use routeros_proto::reply::{ReplyBuilder, ReplyWord};
+/// let comand = ReplyBuilder::new(ReplyWord::Data)
+///     .attribute("name", "foo")
+///     .build();
+/// ```
 pub struct ReplyBuilder {
     reply: ReplyWord,
     attributes: Vec<Attribute>,
@@ -40,7 +49,7 @@ impl ReplyBuilder {
         self
     }
 
-    /// Build a [reply sentence][Reply] instance
+    /// Build a [reply sentence][Reply] instance and consumes the builder instance.
     pub fn build(self) -> Reply {
         Reply {
             reply: self.reply,

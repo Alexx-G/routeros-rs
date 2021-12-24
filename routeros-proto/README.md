@@ -11,7 +11,7 @@ it requires the `alloc` feature.
 - [x] Stick to `no-std`
 - [x] Command sentence building & serialization
 - [x] Reply sentence parsing
-- [ ] Command sentence parsing
-- [ ] Reply sentence builder
+- [x] Command sentence parsing
+- [x] Reply sentence builder
 - [ ] Stream-oriented parser (to support chunk-based parsing, in case chunks are smaller than total sentence length)
 - [ ] More memory efficient parsing & serialization
