@@ -48,9 +48,20 @@
 <span id="48">48</span>
 <span id="49">49</span>
 <span id="50">50</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">core::str::Utf8Error</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>))]</span>
-<span class="kw">use</span> <span class="ident">core::fmt</span>::{<span class="ident">Formatter</span>, <span class="ident">Display</span>, <span class="prelude-ty">Result</span>};
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+</pre><pre class="rust"><code><span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>))]</span>
+<span class="kw">use</span> <span class="ident">core::fmt</span>::{<span class="ident">Display</span>, <span class="ident">Formatter</span>, <span class="prelude-ty">Result</span>};
+<span class="kw">use</span> <span class="ident">core::str::Utf8Error</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">thiserror::Error</span>;
@@ -72,30 +83,41 @@
     },
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">error</span>(<span class="string">&quot;The word starts with unknown word token&quot;</span>))]</span>
     <span class="ident">UnknownWordToken</span>(<span class="ident">char</span>),
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">error</span>(<span class="string">&quot;The sentence starts with unexpected control word&quot;</span>))]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(
+        <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>,
+        <span class="ident">error</span>(<span class="string">&quot;The sentence starts with unexpected control word&quot;</span>)
+    )]</span>
     <span class="ident">UnexpectedControlWord</span>,
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">error</span>(<span class="string">&quot;The sentence contains more than one control words&quot;</span>))]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(
+        <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>,
+        <span class="ident">error</span>(<span class="string">&quot;The sentence contains more than one control words&quot;</span>)
+    )]</span>
     <span class="ident">MoreThanOneControlWords</span>,
     <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">error</span>(<span class="string">&quot;Failed to decode attribute - invalid format&quot;</span>))]</span>
     <span class="ident">InvalidAttributeFormat</span>,
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">error</span>(<span class="string">&quot;The sentence contains unsupported API attribute&quot;</span>))]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(
+        <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>,
+        <span class="ident">error</span>(<span class="string">&quot;The sentence contains unsupported API attribute&quot;</span>)
+    )]</span>
     <span class="ident">UnsupportedAPIAttribute</span>,
-    <span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>, <span class="ident">error</span>(<span class="string">&quot;Reply sentence contains unsupported attribute&quot;</span>))]</span>
+    <span class="attribute">#[<span class="ident">cfg_attr</span>(
+        <span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>,
+        <span class="ident">error</span>(<span class="string">&quot;Reply sentence contains unsupported attribute&quot;</span>)
+    )]</span>
     <span class="ident">UnsupportedReplyAttribute</span>,
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>))]</span>
 <span class="kw">impl</span> <span class="ident">Display</span> <span class="kw">for</span> <span class="ident">ParseError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">Formatter</span><span class="op">&lt;</span><span class="lifetime">&#39;_</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span> {
-        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;ParseError({})&quot;</span>, <span class="self">self</span>) 
+        <span class="macro">write!</span>(<span class="ident">f</span>, <span class="string">&quot;ParseError({})&quot;</span>, <span class="self">self</span>)
     }
 }
-
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>))]</span>
 <span class="kw">impl</span> <span class="ident">From</span><span class="op">&lt;</span><span class="ident">Utf8Error</span><span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">ParseError</span> {
     <span class="kw">fn</span> <span class="ident">from</span>(<span class="kw">_</span>: <span class="ident">Utf8Error</span>) -&gt; <span class="self">Self</span> {
-       <span class="ident"><span class="self">Self</span>::InvalidStringEncoding</span>
+        <span class="ident"><span class="self">Self</span>::InvalidStringEncoding</span>
     }
 }
 </code></pre></div>
